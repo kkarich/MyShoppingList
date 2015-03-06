@@ -17,13 +17,15 @@ module.exports = {
 			stream: 'access.log'
 		}
 	},
-	assets: {
+		assets: {
 		lib: {
 			css: [
-				'public/lib/bootstrap/dist/css/bootstrap.min.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+				'public/lib/bootstrap/dist/css/bootstrap.css',
+				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 				'public/lib/angular-material/angular-material.css',
 				'public/lib/font-awesome/css/font-awesome.css'
+				
+				
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -34,12 +36,22 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-material/angular-material.js'
+
 			]
 		},
-		css: 'public/dist/application.min.css',
-		js: ['public/config.js',
+		css: [
+			'public/modules/**/css/*.css'
+		],
+		js: [
+			'public/config.js',
 			'public/application.js',
-			'public/modules/*/*.js']
+			'public/modules/*/*.js',
+			'public/modules/*/*[!tests]*/*.js'
+		],
+		tests: [
+			'public/lib/angular-mocks/angular-mocks.js',
+			'public/modules/*/tests/*.js'
+		]
 	},
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',
