@@ -20,7 +20,7 @@ SOURCE
 				<a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
 			</li>
 		</ul>-->
-		<md-select data-ng-if="menu.shouldRender(authentication.user);">
+		<md-select ng-model = "favorites" data-ng-if="menu.shouldRender(authentication.user);">
 		<md-select-label >Favorites</md-select-label>
 		    	<md-option ng-value="opt" ng-click="show_import_favorites($event)" >Add Favorites</md-option>
 		    	<md-option ng-value="opt" ng-click="show_edit_favorites($event)" >Edit Favorites</md-option>
@@ -33,8 +33,8 @@ SOURCE
 			|
 			<a href="/#!/signin">Sign In</a>
 	  		</span>
-	  		<md-select data-ng-show="authentication.user">
-	  		 <md-select-label data-ng-bind="authentication.user.displayName">test</md-select-label>
+	  		<md-select ng-model = "userdropdown" data-ng-show="authentication.user">
+	  		 <md-select-label  data-ng-bind="authentication.user.displayName">test</md-select-label>
 		    	<md-option ng-value="opt"><a href="/#!/settings/profile">Edit Profile</a></md-option>
 		    	<md-option ng-value="opt"><a href="/#!/settings/password">Change Password</a></md-option>
 				<md-option ng-value="opt"><a href="/auth/signout">Signout</a></md-option>
