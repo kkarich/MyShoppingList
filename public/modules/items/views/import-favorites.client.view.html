@@ -1,0 +1,30 @@
+<md-dialog aria-label="Import Favorites">
+  <md-content>
+    <md-subheader class="md-sticky-no-effect">Import Favorites</md-subheader>
+     
+    <md-list>
+      <md-item  data-ng-repeat="item in items ">
+        
+    <md-item-content class = "padding" layout="row">
+     <md-checkbox ng-model="item.importing" ng-init="item.importing=true" aria-label="Checkbox 1">
+     {{item.name}} 
+    </md-checkbox>
+
+      </md-item-content>
+    
+        <md-divider ng-if="!$last"></md-divider>
+      </md-item>
+
+    </md-list>
+  </md-content>
+  <div class="md-actions" layout="row">
+   
+    <span flex></span>
+    <md-button ng-click="cancel()">
+     Cancel
+    </md-button>
+    <md-button ng-click="add_to_list()" class="md-primary">
+      Add
+    </md-button>
+  </div>
+</md-dialog>
