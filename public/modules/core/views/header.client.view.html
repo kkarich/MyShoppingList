@@ -1,31 +1,15 @@
-<div class="container" data-ng-controller="HeaderController" layout="row" layout-align="center center"
-
-SOURCE
->
-	<span>
-		<a href="/#!/" class="navbar-brand">My Shopping List</a>
-	</span>
-
-		<!--<ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
-			<li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.menuItemType" ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}" dropdown="item.menuItemType === 'dropdown'">
-				<a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle>
-					<span data-ng-bind="item.title"></span>
-					<b class="caret"></b>
-				</a>
-				<ul ng-switch-when="dropdown" class="dropdown-menu">
-					<li data-ng-repeat="subitem in item.items | orderBy: 'position'" data-ng-if="subitem.shouldRender(authentication.user);" ui-route="{{subitem.uiRoute}}" ng-class="{active: $uiRoute}">
-						<a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
-					</li>
-				</ul>
-				<a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
-			</li>
-		</ul>-->
-		<md-select ng-model = "favorites" data-ng-if="menu.shouldRender(authentication.user);">
-		<md-select-label >Favorites</md-select-label>
+<div class="container" data-ng-controller="HeaderController" layout="row" layout-align="space-around center">
+			<span >
+				<a href="/#!/" class="navbar-brand">My Shopping List</a>
+			</span>
+			<span flex></span>
+			<md-select ng-model = "favorites" data-ng-if="menu.shouldRender(authentication.user);">
+			<md-select-label >Favorites</md-select-label>
 		    	<md-option ng-value="opt" ng-click="show_import_favorites($event)" >Add Favorites</md-option>
 		    	<md-option ng-value="opt" ng-click="show_edit_favorites($event)" >Edit Favorites</md-option>
 	  		</md-select>
-			<span flex></span>
+
+			
 			
 
 	  		<span data-ng-hide="authentication.user"> 
@@ -33,6 +17,7 @@ SOURCE
 			|
 			<a href="/#!/signin">Sign In</a>
 	  		</span>
+
 	  		<md-select ng-model = "userdropdown" data-ng-show="authentication.user">
 	  		 <md-select-label  data-ng-bind="authentication.user.displayName">test</md-select-label>
 		    	<md-option ng-value="opt"><a href="/#!/settings/profile">Edit Profile</a></md-option>
