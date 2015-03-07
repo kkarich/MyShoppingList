@@ -31,6 +31,13 @@ body.ng-cloak
 .gray{
   background-color: #f5f5f5;
 }
+.fa-heart, .fa-heart-o{
+color: rgb(255,64,129);
+}
+
+.fa-check-square, .fa-check-square-o{
+  color: rgb(63,81,181);
+}
 
 md-select{
   margin-top: 0px;
