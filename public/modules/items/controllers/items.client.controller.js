@@ -127,6 +127,7 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 
 		$scope.query = function(searchText) {
 			 var deferred = $q.defer();
+			
 			 $http.get('/search/'+searchText )
 			  .success(function(data, status, headers, config) {
 				   deferred.resolve( data.ArrayOfString.string );
