@@ -1,18 +1,18 @@
- <md-card ng-controller = "ItemsController" >
+ <md-card  >
 
-   <form ng-submit="create(searchText)" layout = "row" layout-align="space-around center"> 
+   <form ng-submit="create(search.searchText); searchText = ''" layout = "row" layout-align="space-around center"> 
 
    
    <md-autocomplete flex
      
         md-selected-item="selectedItem"
-        md-search-text="searchText"
-        md-items="item in query(searchText)"
+        md-search-text="search.searchText"
+        md-items="item in query(search.searchText)"
         md-item-text="item"
-        md-selected-item-change = "create(item)"
+        md-selected-item-change = "create(item); "
         md-min-length = 2
         placeholder="new item">
-      <span md-highlight-text="searchText">{{item}}</span>
+      <span md-highlight-text="search.searchText">{{item}}</span>
     </md-autocomplete>
 
 

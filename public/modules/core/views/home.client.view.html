@@ -1,7 +1,10 @@
-<section data-ng-controller="HomeController">
+<section layout = "row" data-ng-controller="ItemsController">
 	
     <md-content  flex  ng-include="'/modules/items/views/items.client.view.html'">
 
-               </md-content>
+    </md-content>
+
+    <md-content  hide-sm hide-md flex = "50"  ng-include="'/modules/items/views/recipe.client.view.html'"md 
+    </md-content>
   
 </section>

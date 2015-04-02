@@ -3,6 +3,7 @@
 angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$rootScope', '$stateParams', '$location','$http','$q', 'Authentication', 'Items',
 	function($scope,$mdDialog,$rootScope, $stateParams, $location,$http,$q, Authentication, Items) {
 		$scope.authentication = Authentication;
+		$scope.search ={searchText:''};
 		
 		 var items = Items.query(function() {
 		    $scope.items = items
@@ -20,12 +21,20 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 
 		$rootScope.$on('ListUpdated', function () {
 		  	 var items = Items.query(function() {
-		  	 	
-		  	 	console.log(items)
+	
 				    $scope.items = items
 				  }); 
 		});
-		
+
+
+		$scope.convertRecipe= function(recipe) {
+			var items = recipe.split('\n');
+			
+			for(var i in items){
+		        $scope.create(items[i]);
+		    };
+
+		};
 
 
 		$scope.update = function(item) {
@@ -38,7 +47,6 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 		};
 				
 		$scope.create = function(name) {
-			console.log(name)
 			var item = new Items({
 				name: name,
 				inCart:false,
@@ -46,9 +54,10 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 				favorite:false
 			});
 			item.$save(function(response) {
-				$location.path('items/' + response._id);
-				$scope.find();
-				$scope.searchText = ''
+				
+				$scope.items.push(response);
+
+				$scope.search.searchText = ''
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
