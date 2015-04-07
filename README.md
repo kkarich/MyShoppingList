@@ -5,12 +5,12 @@ Simple shopping list app that allows users to add, update, and delete shopping l
 ## Technology Used
 * Angular.js
 * Node.js
-* Mongo db
+* MongoDB
 * HTML/JS/CSS
 * git
 
 ## Live Example
-Browse the live MEAN.JS example on [http://my-shopping-list.herokuapp.com/#!/](http://my-shopping-list.herokuapp.com/#!/).
+Browse the live example on [http://my-shopping-list.herokuapp.com/#!/](http://my-shopping-list.herokuapp.com/#!/).
 
 ## Credits
 Creted using the MEAN.JS Sample project http://meanjs.org/
