@@ -1,15 +1,40 @@
 'use strict';
 
-angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$rootScope', '$stateParams', '$location','$http','$q', 'Authentication', 'Items',
-	function($scope,$mdDialog,$rootScope, $stateParams, $location,$http,$q, Authentication, Items) {
+angular.module('items').controller('ItemsController', ['$scope','$filter', '$mdDialog','$rootScope', '$stateParams', '$location','Socket', '$http','$q', 'Authentication', 'Items',
+	function($scope,$filter,$mdDialog,$rootScope, $stateParams, $location, Socket,$http,$q, Authentication, Items) {
 		$scope.authentication = Authentication;
 		$scope.search ={searchText:''};
-		
+
 		 var items = Items.query(function() {
 		    $scope.items = items
-		   
-		  }); 
 
+		  });
+
+		Socket.on('item.created', function(item) {
+
+		    if(item.user === Authentication.user._id){
+
+					$scope.items.push(item);
+				}
+		});
+
+		Socket.on('item.updated', function(item) {
+
+		    if(item.user._id === Authentication.user._id){
+
+					var index = $scope.items.indexOf($filter('filter')($scope.items, {_id: item._id})[0]);
+					$scope.items[index] = item;
+				}
+		});
+
+		Socket.on('item.deleted', function(item) {
+
+				if(item.user._id === Authentication.user._id){
+
+					var index = $scope.items.indexOf($filter('filter')($scope.items, {_id: item._id})[0]);
+					$scope.items.splice(index,1);
+				}
+		});
 
 		$scope.show_import_favorites = function(ev) {
 		    $mdDialog.show({
@@ -21,15 +46,15 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 
 		$rootScope.$on('ListUpdated', function () {
 		  	 var items = Items.query(function() {
-	
+
 				    $scope.items = items
-				  }); 
+				  });
 		});
 
 
 		$scope.convertRecipe= function(recipe) {
 			var items = recipe.split('\n');
-			
+
 			for(var i in items){
 		        $scope.create(items[i]);
 		    };
@@ -38,14 +63,10 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 
 
 		$scope.update = function(item) {
-			
-			item.$update(function() {
-				$location.path('items/' + item._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
+			Items.update({ id:item._id }, item);
+
 		};
-				
+
 		$scope.create = function(name) {
 			var item = new Items({
 				name: name,
@@ -54,8 +75,7 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 				favorite:false
 			});
 			item.$save(function(response) {
-				
-				$scope.items.push(response);
+
 
 				$scope.search.searchText = ''
 			}, function(errorResponse) {
@@ -79,48 +99,41 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 			}
 		};
 
-		$scope.update = function(item) {
-			
-			item.$update(function() {
-				$location.path('items/' + item._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+
 
 		$scope.add_to_favorites = function(item) {
-			
-			
+
+
 				item.favorite = !item.favorite;
-			
+
 			$scope.update(item)
-			
-			
+
+
 		};
 
 		$scope.add_to_cart = function(item) {
-			
-			
+
+
 				item.inCart = !item.inCart;
-			
+
 			$scope.update(item)
-			
-			
+
+
 		};
 
 		$scope.clear_basket = function() {
-			
+
 			for( var i in $scope.items){
 				var item = $scope.items[i]
-				
+
 				if (item.inCart ){
-					
+
 					item.bought = true
 					$scope.update(item)
-					
+
 				}
 			}
-			
+
 		};
 
 		$scope.find = function() {
@@ -129,14 +142,16 @@ angular.module('items').controller('ItemsController', ['$scope','$mdDialog','$ro
 
 		$scope.findOne = function(item) {
 			item.editing = false;
-			item = Items.get({
-				itemId: item._id
-			});
+			Items.get({itemId: item._id},function(old) {
+				
+				item.name = old.name;
+				});
+
 		};
 
 		$scope.query = function(searchText) {
 			 var deferred = $q.defer();
-			
+
 			 $http.get('/search/'+searchText )
 			  .success(function(data, status, headers, config) {
 				   deferred.resolve( data.ArrayOfString.string );

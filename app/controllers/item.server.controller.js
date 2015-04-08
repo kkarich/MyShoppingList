@@ -23,6 +23,9 @@ exports.create = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
+			socketio.sockets.emit('item.created', item); // emit an event for all connected clients
+			socketio.sockets.emit('item.updated', item);
 			res.json(item);
 		}
 	});
@@ -32,7 +35,7 @@ exports.create = function(req, res) {
  * Show the current item
  */
 exports.read = function(req, res) {
-	console.log(req.item)
+
 	res.json(req.item);
 };
 
@@ -43,13 +46,18 @@ exports.update = function(req, res) {
 	var item = req.item;
 
 	item = _.extend(item, req.body);
-	console.log(item)
+	console.log('update')
 	item.save(function(err) {
 		if (err) {
+			console.log('errr')
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			console.log('success')
+			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
+			socketio.sockets.emit('item.updated', item); // emit an event for all connected clients
+
 			res.json(item);
 		}
 	});
@@ -67,6 +75,9 @@ exports.delete = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
+			socketio.sockets.emit('item.deleted', item); // emit an event for all connected clients
+
 			res.json(item);
 		}
 	});
@@ -92,7 +103,7 @@ exports.searchItem = function(req, res) {
   if (!error && response.statusCode == 200) {
     var xml = body;
 	var json = parser.toJson(xml, {object: true}); //returns a string containing the JSON structure by default
-	res.json(json); 
+	res.json(json);
   }
 })
 };

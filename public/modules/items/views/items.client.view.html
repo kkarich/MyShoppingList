@@ -1,10 +1,10 @@
  <md-card  >
 
-   <form ng-submit="create(search.searchText); searchText = ''" layout = "row" layout-align="space-around center"> 
+   <form ng-submit="create(search.searchText); searchText = ''" layout = "row" layout-align="space-around center">
 
-   
+
    <md-autocomplete flex
-     
+
         md-selected-item="selectedItem"
         md-search-text="search.searchText"
         md-items="item in query(search.searchText)"
@@ -18,39 +18,39 @@
 
 
 
-          
-      </form>
-            
 
-            
-          
-            
+      </form>
+
+
+
+
+
 <md-divider></md-divider>
 
 <md-content md-scroll-y id = "items-container">
- 
+
     <md-list>
       <md-item  data-ng-repeat="item in list = (items | filter:{inCart:'False',bought:'False'})">
-        
+
     <md-item-content class = "padding" layout="row">
-      <div flex = "10"> 
+      <div flex = "10">
         <i ng-class="item.inCart? ' fa fa-check-square fa-2x' : 'fa fa-square-o fa-2x'"
-            ng-click="add_to_cart(item)" ></i> 
+            ng-click="add_to_cart(item)" ></i>
       </div>
-          
+
       <div  flex>
-      
+
        <div ng-hide = "item.editing" ng-click="item.editing = true">
         <h3  >{{item.name}} </h3>
 
 
       </div>
 
-    
-      <form ng-show = "item.editing" class = "">
+
+      <form  ng-submit = "update(item)" ng-show = "item.editing" class = "">
 
       <div layout="column" >
-      
+
         <md-input-container flex>
           <label>Name</label>
           <input ng-model="item.name" placeholder="item name">
@@ -68,24 +68,24 @@
         -->
       </div>
 
-      <md-button ng-click = "remove(item)" ><i class="fa fa-trash-o fa-2x"></i></md-button>
-      <md-button  ng-click="findOne(item)">cancel</md-button>
-      <md-button ng-click = "update(item)" class="md-raised">Save</md-button>
-      
+      <md-button type = "button" ng-click = "remove(item)" ><i class="fa fa-trash-o fa-2x"></i></md-button>
+      <md-button type = "button" ng-click="findOne(item)">cancel</md-button>
+      <md-button type="submit"   class="md-raised">Save</md-button>
+
       </form>
-      
+
       </div>
 
       <div flex = "10">
           <i ng-class="item.favorite? ' fa fa-heart fa-2x' : 'fa fa-heart-o fa-2x'"
                         ng-click="add_to_favorites(item)" ></i>
       </div>
-      
+
       </md-item-content>
-    
+
         <md-divider ng-if="!$last"></md-divider>
       </md-item>
-      
+
       <md-item ng-hide = "list.length" layout="column" layout-align="center center">
           <h3>Nothing in your list </h3>
           <h3>Start from your <md-button ng-click="show_import_favorites($event)" >favorites</md-button> </h3>
@@ -99,41 +99,41 @@
         <h2 class="md-toolbar-tools" flex>
         <span>Items In Basket</span>
         </h2>
-        
+
         <md-button ng-click="clear_basket()" flex = "20">
-            
+
             <md-tooltip>
                   Clears items in basket
                 </md-tooltip>
                 Clear
                 </md-button>
 
-      </div>           
+      </div>
 
-          
+
 
     <md-list>
       <md-item ng-repeat="item in items | filter:{inCart:'True',bought:'False'} ">
-      
+
       <md-item-content class = "padding" layout="row">
-      <div flex = "10"> 
+      <div flex = "10">
         <i ng-class="item.inCart? ' fa fa-check-square fa-2x' : 'fa fa-square-o fa-2x'"
-            ng-click="add_to_cart(item)" ></i> 
+            ng-click="add_to_cart(item)" ></i>
       </div>
-          
+
       <div  flex>
-      
+
        <div ng-hide = "item.editing" ng-click="item.editing = true">
         <h3  >{{item.name}} </h3>
 
 
       </div>
 
-    
-      <form ng-show = "item.editing" class = "">
+
+      <form ng-submit = "update(item)" ng-show = "item.editing" class = "">
 
       <div layout="column" >
-      
+
         <md-input-container flex>
           <label>Name</label>
           <input ng-model="item.name" placeholder="item name">
@@ -151,21 +151,21 @@
         -->
       </div>
 
-      <md-button ng-click = "remove(item)" ><i class="fa fa-trash-o fa-2x"></i></md-button>
-      <md-button  ng-click="findOne(item)">cancel</md-button>
-      <md-button ng-click = "update(item)" class="md-raised">Save</md-button>
-      
+      <md-button type = "button" ng-click = "remove(item)" ><i class="fa fa-trash-o fa-2x"></i></md-button>
+      <md-button type = "button" ng-click="findOne(item)">cancel</md-button>
+      <md-button type="submit"   class="md-raised">Save</md-button>
+
       </form>
-      
+
       </div>
 
       <div flex = "10">
           <i ng-class="item.favorite? ' fa fa-heart fa-2x' : 'fa fa-heart-o fa-2x'"
                         ng-click="add_to_favorites(item)" ></i>
       </div>
-      
+
       </md-item-content>
-    
+
     <md-divider ng-if="!$last"></md-divider>
       </md-item>
     </md-list>
@@ -173,7 +173,6 @@
 
  </md-content>
 
-  
-    
-      </md-card>
 
+
+      </md-card>
